@@ -1,3 +1,2 @@
-Disallow: /docs/hpinc/
-Disallow: /docs/aruba/
-Disallow: /docs/hpe/
+User-agent: *
+Disallow: /

@@ -1,6 +1,6 @@
-# Grommet website project
+# Grommet Universal Single Page Template
 
-This is the source code for the [Grommet website](http://grommet.io). To run the website execute the following:
+This is the source code for a Grommet based universal single page. To run the website execute the following:
 
   1. Install website NPM modules:
 
@@ -25,6 +25,3 @@ This is the source code for the [Grommet website](http://grommet.io). To run the
       ```
       $ node server/server.js
       ```
-
-
-

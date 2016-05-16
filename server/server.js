@@ -8,9 +8,8 @@ var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var path = require('path');
 var throng = require('throng');
-var themePicker = require('./theme-picker');
 
-var docs = require('./docs');
+var ivenues = require('./ivenues');
 
 var WORKERS = process.env.WEB_CONCURRENCY || 1;
 var PORT = process.env.PORT || 8000;
@@ -31,13 +30,7 @@ function start() {
     app.use(morgan('tiny'));
   }
 
-  app.get('/', function (req, res) {
-    var docpath = path.join('/docs/',
-      themePicker(req.headers["x-forwarded-for"] || req.ip));
-    res.redirect(301, docpath);
-  });
-
-  router.use('/docs/', docs);
+  router.use('/', ivenues);
 
   app.use('/', function(req, res, next) {
     var acceptLanguageHeader = req.headers['accept-language'];
@@ -52,41 +45,9 @@ function start() {
     next();
   });
 
-  // Redirect referneces to the original HPE sticker sheet
-  // to the new master HPE sticker sheet.
-  app.get('/assets/design/grommet_sticker_sheet.ai', function (req, res) {
-    res.redirect(301, '/assets/design/hpe/grommet-hpe-master.ai');
-  });
-
-  app.get('/assets/design/:name', function(req, res) {
-    var options = {
-      root: path.join(__dirname, '/../dist/assets/design'),
-      dotfiles: 'deny',
-      headers: {
-        'x-timestamp': Date.now(),
-        'x-sent': true
-      }
-    };
-
-    // Express uses the mime.lookup() method in the node-mime
-    // https://github.com/broofa/node-mime project to determine
-    // a file's mime type.  This method returns the mime type
-    // of 'application/postscript' for Adobe Illustrator files
-    // and this results in Safari attempting to show a preview of
-    // the file in the browser.  So we'll check for Illustrator
-    // files and handle them as a special case for now.
-    if (/\.ai$/.test(req.params.name) ) {
-      res.type('application/illustrator');
-    } else {
-      res.type(req.params.name);
-    }
-
-    res.sendFile(req.params.name, options);
-  });
-
   // The robots.txt file must be at the root of the webserver
   // in order for bots to find locate it.  Without this function,
-  // the file is hosted under the /docs directory.
+  // the file is hosted under the /ivenues directory.
   app.get('/robots.txt', function(req, res) {
     var options = {
       root: path.join(__dirname, '/../dist'),

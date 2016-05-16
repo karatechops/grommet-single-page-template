@@ -1,20 +1,20 @@
 {
-  "name": "grommet-docs",
-  "version": "0.4.0",
+  "name": "grommet-single-page-template",
+  "version": "0.0.1",
   "main": "src/index.js",
-  "description": "Website for Grommet framework.",
+  "description": "Grommet Isomorphic Template.",
   "authors": [
     "Alan Souza",
     "Bryan Jacquot",
     "Chris Carlozzi",
-    "Eric Soderberg"
+    "Eric Soderberg",
+    "Alex Mejias"
   ],
   "homepage": "http://grommet.io",
-  "bugs": "https://github.com/grommet/grommet-docs/issues",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grommet-docs/grommet.git"
+    "url": "https://github.com/karatechops/grommet-single-page-template.git"
   },
   "dependencies": {
     "clone-stats": "0.0.1",

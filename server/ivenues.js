@@ -10,22 +10,22 @@ var Router = require('react-router').Router;
 var createHistory = require('history').createMemoryHistory;
 var createLocation = require('history').createLocation;
 
-var docsRoutes = require('./server-routes.js');
+var homeRoutes = require('./server-routes.js');
 
 // Convert static resources defined by relative URLs when using HTML5 pushState
 function translateStatics(req, res, next) {
   if (req.url.match(/.+\/img\//)) { // img
-    res.redirect(301, req.url.replace(/.*\/(img\/.*)$/, "/docs/$1"));
+    res.redirect(301, req.url.replace(/.*\/(img\/.*)$/, "/$1"));
   } else if (req.url.match(/.+\/video\//)) { // video
-    res.redirect(301, req.url.replace(/.*\/(video\/.*)$/, "/docs/$1"));
+    res.redirect(301, req.url.replace(/.*\/(video\/.*)$/, "/$1"));
   } else if (req.url.match(/\/img\//) || req.url.match(/\/video\//)) { // img
     next();
   } else if (req.url.match(/.+\/font\//)) { // font
-    res.redirect(301, req.url.replace(/.*\/(font\/.*)$/, "/docs/$1"));
+    res.redirect(301, req.url.replace(/.*\/(font\/.*)$/, "/$1"));
   } else if (req.url.match(/\/font\//)) { // font
     next();
   } else if (req.url.match(/.+\/.*\.[^\/]*$/)) { // file
-    res.redirect(301, req.url.replace(/.*\/([^\/]*)$/, "/docs/$1"));
+    res.redirect(301, req.url.replace(/.*\/([^\/]*)$/, "/$1"));
   } else {
     next();
   }
@@ -35,7 +35,7 @@ function processPage(req, res, theme) {
 
   var path = theme !== '' ? ('/' + theme) : '';
 
-  var locationUrl = '/docs' + path + req.url.replace(path, '');
+  var locationUrl = '/' + path + req.url.replace(path, '');
 
   var Component = React.createFactory(Router);
 
@@ -43,16 +43,14 @@ function processPage(req, res, theme) {
 
   var html = ReactDOMServer.renderToString(
     Component({
-      routes: docsRoutes('/docs' + path + '/'),
+      routes: homeRoutes('/' + path + '/'),
       history: createHistory({entries: [location]})
     })
   );
 
   res.render('index.ejs', {
     appBody: html,
-    linkTag: "<link id='theme-link' href='/docs/" +
-      (theme === '' ? 'vanilla' : theme) +
-      ".min.css' rel='stylesheet' type='text/css'>"
+    linkTag: "<link id='theme-link' href='/ivenues.min.css' rel='stylesheet' type='text/css'>"
   });
 
 }

@@ -64,24 +64,8 @@ function distCss (name) {
     .pipe(gulp.dest('dist/'));
 }
 
-gulp.task('dist-css-aruba', function () {
-  return distCss('aruba');
-});
-
-gulp.task('dist-css-grommet', function () {
-  return distCss('grommet');
-});
-
-gulp.task('dist-css-hpe', function () {
-  return distCss('hpe');
-});
-
-gulp.task('dist-css-hpinc', function () {
-  return distCss('hpinc');
-});
-
-gulp.task('dist-css-vanilla', function () {
-  return distCss('vanilla');
+gulp.task('dist-css-ivenues', function () {
+  return distCss('ivenues');
 });
 
 gulp.task('notify', function () {
@@ -95,8 +79,7 @@ gulp.task('notify', function () {
 
 gulp.task('dist-css', function(done) {
   runSequence(
-    ['dist-css-aruba', 'dist-css-grommet', 'dist-css-hpe',
-    'dist-css-hpinc', 'dist-css-vanilla'], 'notify', done);
+    ['dist-css-ivenues'], 'notify', done);
 });
 
 var nodeModules = {};
@@ -107,43 +90,6 @@ fs.readdirSync('node_modules')
   .forEach(function(mod) {
     nodeModules[mod] = 'commonjs ' + mod;
   });
-
-gulp.task('generate-icons-map', function (done) {
-  var iconsFolder = path.join(__dirname, './node_modules/grommet/img/icons');
-  var iconsMap = ['module.exports = {'];
-  fs.readdir(iconsFolder, function(err, icons) {
-    icons.forEach(function (icon, index) {
-
-      if (/\.svg$/.test(icon)) {
-        var componentName = icon.replace('.svg', '.js');
-        componentName = componentName.replace(/^(.)|-([a-z])/g, function (g) {
-          return g.length > 1 ? g[1].toUpperCase() : g.toUpperCase();
-        });
-
-        var grommetIconPath = "grommet/components/icons/base/";
-        iconsMap.push(
-          "\"" + icon.replace('.svg', '') + "\":" +
-          " require('" + grommetIconPath + componentName + "')"
-        );
-
-        if (index === icons.length - 1) {
-          iconsMap.push('};\n');
-
-          var destinationFile = path.join(__dirname, 'src/develop/components/iconsMap.js');
-          fs.writeFile(destinationFile, iconsMap.join(''), function(err) {
-            if (err) {
-              throw err;
-            }
-
-            done();
-          });
-        } else {
-          iconsMap.push(',');
-        }
-      }
-    });
-  });
-});
 
 gulp.task('generate-server-routes', function() {
   return gulp.src(path.join(__dirname, 'src/routes.js'))

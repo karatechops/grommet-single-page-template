@@ -3,7 +3,7 @@ import path from 'path';
 
 export default {
   base: '.',
-  publicPath: 'docs',
+  publicPath: '',
   dist: path.resolve(__dirname, 'dist/'),
   copyAssets: [
     'src/index.html',
@@ -55,13 +55,15 @@ export default {
   devServerPort: 8002,
   // devServerHost: "0.0.0.0",
   scsslint: true,
+  hot: true,
+  inline: true,
   alias: {
     'grommet/scss': path.resolve(__dirname, '../grommet/src/scss'),
     'grommet': path.resolve(__dirname, '../grommet/src/js')
   },
   devPreprocess: [
-    'set-webpack-alias', 'dist-css', 'generate-icons-map', 'watch-css'
+    'set-webpack-alias', 'dist-css', 'watch-css'
   ],
-  distPreprocess: ['set-webpack-alias', 'dist-css', 'generate-icons-map',
+  distPreprocess: ['set-webpack-alias', 'dist-css', 
     'generate-server-routes']
 };
