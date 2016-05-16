@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, IndexRoute } from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router';
 import { createHistory } from 'history';
 import Ivenues from './Ivenues';
 import Home from './Home';
@@ -13,11 +13,33 @@ const onRouteUpdate = function () {
   }
 };
 
+class IvenuesSection extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.constructor.childContextTypes = {
+      routePrefix: React.PropTypes.string.isRequired
+    };
+  }
+
+  getChildContext() {
+    return {
+      routePrefix: rootPath
+    };
+  }
+
+  render() {
+    return (
+      <Ivenues {...this.props} />
+    );
+  }
+};
+
 const routes = (
   <Router onUpdate={onRouteUpdate} history={createHistory()} >
-    <Router path={rootPath} component={Ivenues}>
+    <Route path={rootPath} component={IvenuesSection}>
       <IndexRoute component={Home} />
-    </Router>
+    </Route>
   </Router>
 );
 

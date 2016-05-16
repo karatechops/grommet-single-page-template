@@ -1,11 +1,11 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var React = require('react');
-var Article = require('grommet/components/Article');
-var Section = require('grommet/components/Section');
-var Headline = require('grommet/components/Headline');
+import React from 'react';
+import Article from 'grommet/components/Article';
+import Section from 'grommet/components/Section';
+import Headline from 'grommet/components/Headline';
 
-var HomeSection = React.createClass({
+const HomeSection = React.createClass({
   render: function () {
     return (
       <Section {...this.props}
@@ -17,7 +17,10 @@ var HomeSection = React.createClass({
   }
 });
 
-var Home = React.createClass({
+const Home = React.createClass({
+  contextTypes: {
+    routePrefix: React.PropTypes.string.isRequired
+  },
 
   _onClick: function () {
     // no-op
@@ -45,4 +48,4 @@ var Home = React.createClass({
 
 });
 
-module.exports = Home;
+export default Home;
