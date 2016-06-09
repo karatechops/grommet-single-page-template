@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import Ivenues from './Ivenues';
+import App from './App';
 import Home from './components/Home';
 
 const rootPath = '/';
@@ -12,7 +12,7 @@ const onRouteUpdate = function () {
   }
 };
 
-class IvenuesSection extends React.Component {
+class GrommetApp extends React.Component {
   constructor(props) {
     super(props);
 
@@ -29,14 +29,14 @@ class IvenuesSection extends React.Component {
 
   render() {
     return (
-      <Ivenues {...this.props} />
+      <App {...this.props} />
     );
   }
 };
 
 const routes = (
   <Router onUpdate={onRouteUpdate} history={browserHistory} >
-    <Route path={rootPath} component={IvenuesSection}>
+    <Route path={rootPath} component={GrommetApp}>
       <IndexRoute component={Home} />
     </Route>
   </Router>
