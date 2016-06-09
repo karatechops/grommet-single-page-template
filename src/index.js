@@ -9,7 +9,7 @@ if (! Modernizr.flexbox ||
     'If you are using the latest Internet Explorer, you will need to turn off Compatibility Mode.');
 }
 
-import routes from './routes';
+import routes from './js/routes';
 import ReactDOM from 'react-dom';
 
 const element = document.getElementById('content');

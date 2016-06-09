@@ -56,7 +56,7 @@ gulp.task('watch-css', function() {
 
 function distCss (name) {
   var prefix = options.webpack.resolve.alias ? 'grommet/' : '';
-  return gulp.src('src/scss/index-' + name + '.scss')
+  return gulp.src('src/scss/'+name+'.scss')
     .pipe(replace(prefix, ''))
     .pipe(distSass())
     .pipe(rename(name + '.min.css'))
@@ -64,8 +64,8 @@ function distCss (name) {
     .pipe(gulp.dest('dist/'));
 }
 
-gulp.task('dist-css-ivenues', function () {
-  return distCss('ivenues');
+gulp.task('dist-css-index', function () {
+  return distCss('index');
 });
 
 gulp.task('notify', function () {
@@ -79,7 +79,7 @@ gulp.task('notify', function () {
 
 gulp.task('dist-css', function(done) {
   runSequence(
-    ['dist-css-ivenues'], 'notify', done);
+    ['dist-css-index'], 'notify', done);
 });
 
 var nodeModules = {};
@@ -92,7 +92,7 @@ fs.readdirSync('node_modules')
   });
 
 gulp.task('generate-server-routes', function() {
-  return gulp.src(path.join(__dirname, 'src/routes.js'))
+  return gulp.src(path.join(__dirname, 'src/js/routes.js'))
     .pipe(gulpWebpack({
       target: 'node',
       output: {
@@ -139,65 +139,6 @@ gulp.task('release:createTmp', function(done) {
     }
     done();
   });
-});
-
-gulp.task('release:heroku', ['dist', 'release:createTmp'], function(done) {
-  if (process.env.CI) {
-    git.clone('https://' + process.env.GH_TOKEN + '@github.com/grommet/grommet-docs.git',
-      {
-        cwd: './tmp/'
-      },
-      function(err) {
-        if (err) {
-          throw err;
-        }
-
-        process.chdir('./tmp/grommet-docs');
-        git.checkout('heroku', function(err) {
-          if (err) {
-            throw err;
-          }
-
-          del.sync(['./**/*']);
-
-          gulp.src(['../../**'])
-          .pipe(gulp.dest('./')).on('end', function() {
-            git.status({
-              args: '--porcelain'
-            }, function(err, stdout) {
-              if (err) {
-                throw err;
-              }
-
-              if (stdout && stdout !== '') {
-                gulp.src('./')
-                  .pipe(git.add({
-                    args: '--all'
-                  }))
-                  .pipe(git.commit('Heroku dev version update.')).on('end', function() {
-                    git.push('origin', 'heroku', { quiet: true }, function(err) {
-                      if (err) {
-                        throw err;
-                      }
-
-                      process.chdir(__dirname);
-                      done();
-                    });
-                  });
-              } else {
-                console.log('No difference since last commit, skipping heroku release.');
-
-                process.chdir(__dirname);
-                done();
-              }
-            });
-          });
-        });
-      }
-    );
-  } else {
-    console.warn('Skipping release. Release:heroku task should be executed by CI only.');
-  }
 });
 
 grommetToolbox(gulp, options);

@@ -53,7 +53,7 @@ export default {
     }
   },
   devServerPort: 8002,
-  // devServerHost: "0.0.0.0",
+  //devServerHost: "10.0.0.1",
   scsslint: true,
   hot: true,
   inline: true,
