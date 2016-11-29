@@ -7,7 +7,6 @@ export default {
   dist: path.resolve(__dirname, 'dist/'),
   copyAssets: [
     'src/index.html',
-    'src/robots.txt',
     {
       asset: 'src/develop/img/**',
       dist: 'dist/img/'

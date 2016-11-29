@@ -10,7 +10,7 @@ const HomeSection = React.createClass({
     return (
       <Section {...this.props}
         appCentered={true} justify="center" align="center" full={true}
-        textCentered={true} pad={{vertical: "large"}}>
+        pad={{vertical: "large"}}>
         {this.props.children}
       </Section>
     );
@@ -18,10 +18,6 @@ const HomeSection = React.createClass({
 });
 
 const Home = React.createClass({
-  contextTypes: {
-    routePrefix: React.PropTypes.string.isRequired
-  },
-
   _onClick: function () {
     // no-op
   },
